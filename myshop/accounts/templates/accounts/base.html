@@ -1,0 +1,101 @@
+{% load static %}
+{% load accounts_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link type="text/css" href="{% static 'accounts/css/styles.css' %}" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'accounts/image/main.png' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+<tr><td valign=top>
+{% block mainmenu %}
+<div class="header">
+			<ul id="mainmenu" class="mainmenu">
+			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
+<!--			{% show_menu %}-->
+				{% for i in menu %}
+						<li><a href="{% url i.url_name %}">{{i.title}}</a></li>
+				{% endfor %}
+				{% if request.user.is_authenticated %}
+					{% if request.user.is_seller %}
+					<li><a href="{% url 'add_product' %}">Добавить товар</a></li>
+					{% endif %}
+				{% for b in profile %}
+				<li class="last"> <a href="{{ b.get_absolute_url }}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+				{% endfor %}
+				{% else %}
+				<li class="last"><a href="{% url 'registry' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+				{% endif %}
+				{% if cart|length > 0 %}
+				<li class="last"> <a href="{% url 'cart:cart_detail' %}">
+					Корзина ({{ cart|length }} позиций на сумму {{ cart.get_total_price }})
+
+				</a> </li>
+				{% else %}
+				<li class="last"> <a href="{% url 'cart:cart_detail' %}">Корзина</a> </li>
+				{% endif %}
+			</ul>
+			<div class="clear"></div>
+		</div>
+{% endblock mainmenu %}
+<table class="table-content" border=0 cellpadding="0" cellspacing="0">
+<tr>
+<!--	{% get_categories as category %}-->
+	<td valign="top" class="left-chapters">
+	<ul id="leftchapters">
+		{% if selected_category == 0 %}
+			<li class="selected">Все категории</li>
+		{% else %}
+			<li><a href="{% url 'home' %}">Все категории</a></li>
+		{% endif %}
+
+		{% show_categories selected_category=selected_category %}
+
+	</ul>
+</td>
+<td valign="top" class="content">
+	<!-- Хлебные крошки -->
+	{% block breadcrumbs %}
+	{% endblock %}
+
+	<div class="content-text">
+{% block content %}
+{% endblock %}
+		{% if page_obj.has_other_pages %}
+<nav class="list-pages">
+    <ul>
+{% if page_obj.has_previous %}
+<li class="page-num">
+	<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+</li>
+{% endif %}
+
+        {% for p in paginator.page_range %}
+		{% if page_obj.number == p %}
+        <li class="page-num page-num-selected">{{ p }}</li>
+		{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+        <li class="page-num">
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+		{% endif %}
+        {% endfor %}
+
+{% if page_obj.has_next %}
+<li class="page-num">
+	<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+</li>
+{% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+	</div>
+
+</td></tr></table>
+
+</body>
+</html>

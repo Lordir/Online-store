@@ -1,0 +1,10 @@
+{% for j in category %}
+{% if j.product__count > 0 %}
+    {% if j.pk == selected_category %}
+        <li class="selected">{{j.name}}</li>
+    {% else %}
+        <li><a href="{{ j.get_absolute_url }}">{{j.name}}</a></li>
+    {% endif %}
+{% endif %}
+{% endfor %}
+
