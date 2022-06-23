@@ -1,0 +1,41 @@
+from django.contrib.auth import views
+from django.urls import path, include
+from .views import *
+
+urlpatterns = [
+    path('', Home.as_view(), name='home'),
+    path('sort_price_down', HomeSortPriceDown.as_view(), name='home_sort_price_down'),
+    path('sort_price_up', HomeSortPriceUp.as_view(), name='home_sort_price_up'),
+    path('info/', Info.as_view(), name='info'),
+    path('registry/', Registry.as_view(), name='registry'),
+    path('registry_seller/', RegistrySeller.as_view(), name='registry_seller'),
+    path('registry/done', registry_done, name='registry_done'),
+    path('activate/<uidb64>/<token>/', activate, name='activate'),
+    path('login/', LoginUser.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
+    path('add_product/', AddProduct.as_view(), name='add_product'),
+    path('product/<slug:product_slug>/', ShowProduct.as_view(), name='product'),
+    path('category/<slug:category_slug>/', ShowCategory.as_view(), name='category'),
+    path('category/<slug:category_slug>/sort_price_down', ShowCategorySortPriceDown.as_view(), name='sort_price_down'),
+    path('category/<slug:category_slug>/sort_price_up', ShowCategorySortPriceUp.as_view(), name='sort_price_up'),
+    path('profile/<int:profile_id>/', UserProfile.as_view(), name='profile'),
+    path('edit_user/', EditUser.as_view(), name='edit_user'),
+    path('<slug:product_slug>/edit_product/', EditProduct.as_view(), name='edit_product'),
+    path('<slug:product_slug>/delete_product/', DeleteProduct.as_view(), name='delete_product'),
+    path('change_password/', ChangePassword.as_view(), name='change_password'),
+    path('password_reset/',
+         views.PasswordResetView.as_view(template_name='accounts/password/password_reset.html'),
+         name='password_reset'),
+    path('password_reset/done/',
+         views.PasswordResetDoneView.as_view(template_name='accounts/password/password_reset_done.html'),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',
+         views.PasswordResetConfirmView.as_view(template_name="accounts/password/password_reset_confirm.html"),
+         name='password_reset_confirm'),
+    path('reset/done/',
+         views.PasswordResetCompleteView.as_view(template_name='accounts/password/password_reset_complete.html'),
+         name='password_reset_complete'),
+    path('create_order/', CreateOrder.as_view(), name='create_order'),
+    path('check_order/', CheckOrder, name='CheckOrder'),
+
+]

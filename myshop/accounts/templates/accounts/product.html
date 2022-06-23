@@ -1,0 +1,36 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>{{product.title}}</h1>
+
+{% if product.photo %}
+<p><img class="img-article-left" src="{{product.photo.url}}"></p>
+{% endif %}
+<p>Цена: {{product.price}}</p>
+<p>В наличии: {{product.number}}</p>
+{{product.content|linebreaks}}
+
+<form action="{% url 'cart:cart_add' product.id %}" method="post">
+    {% csrf_token %}
+    {% for f in cart_product_form %}
+        {% if not forloop.last %}
+            <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        {% endif %}
+    {% endfor %}
+
+    <button type="submit">В корзину</button>
+</form>
+
+
+
+<p>Просмотров: {{product.views}}</p>
+{% for c in other_profile %}
+<p>Создатель: <a href="{{ c.get_absolute_url }}">{{product.creator}}</a></p>
+{% if request.user.is_authenticated %}
+{% if request.user == product.creator %}
+<p class="link-read-post"><a href="{% url 'edit_product' product.slug %}">Редактировать</a></p>
+<p class="link-read-post"><a href="{% url 'delete_product' product.slug %}">Удалить</a></p>
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endblock %}

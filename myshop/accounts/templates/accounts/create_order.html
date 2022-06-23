@@ -1,0 +1,28 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+{% if price == 0 %}
+<h1>Сначала необходимо добавить товары в корзину!</h1>
+{% else %}
+<h1>Заказ №{{order_number}} на сумму {{price}} успешно оформлен</h1>
+<h1>Произведите оплату</h1>
+<form method="POST" action="https://yoomoney.ru/quickpay/confirm.xml">
+    <input type="hidden" name="receiver" value="4100116336058872"/>
+    <input type="hidden" name="formcomment" value="Покупка в интернет магазине"/>
+    <input type="hidden" name="short-dest" value="Покупка в интернет магазине"/>
+    <input type="hidden" name="label" value="$order_id"/>
+    <input type="hidden" name="quickpay-form" value="donate"/>
+    <input type="hidden" name="targets" value="транзакция {{order_number}}"/>
+    <input type="hidden" name="sum" value="{{price}}" data-type="number"/>
+    <input type="hidden" name="comment" value=" "/>
+    <input type="hidden" name="need-fio" value="false"/>
+    <input type="hidden" name="need-email" value="false"/>
+    <input type="hidden" name="need-phone" value="false"/>
+    <input type="hidden" name="need-address" value="false"/>
+    <input type="hidden" name="successURL" value="home"/>
+    <label><input type="radio" name="paymentType" value="PC"/>ЮMoney</label>
+    <label><input type="radio" name="paymentType" value="AC"/>Банковской картой</label>
+    <input type="submit" value="Оплатить"/>
+</form>
+{% endif %}
+{% endblock %}

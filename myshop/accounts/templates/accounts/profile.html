@@ -1,0 +1,27 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<h1>Личный кабинет: {{other_profile.0}}</h1>
+<p class="link-read-post"><a href="{% url 'edit_user' %}">Редактировать данные</a></p>
+<p class="link-read-post"><a href="{% url 'change_password' %}">Изменить пароль</a></p>
+{% if request.user.is_seller %}
+{% for p in product %}
+    <li>
+		<h2>{{p.title}}</h2>
+		<a href="{{ p.get_absolute_url }}">
+		{% if p.photo %}
+		<p><img class="img-article-left" src="{{p.photo.url}}"></p>
+		{% endif %}
+		</a>
+		<p>{{p.content}}</p>
+		<p>Цена: {{p.price}}</p>
+		<p>Просмотров: {{p.views}}</p>
+		<div class="clear"></div>
+		<p class="link-read-post"><a href="{{ p.get_absolute_url }}">Открыть</a></p>
+		<hr>
+	</li>
+{% endfor %}
+{% endif %}
+
+
+{% endblock %}
