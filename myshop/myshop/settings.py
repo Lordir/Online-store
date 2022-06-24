@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6$ri+u&t!c7o+8k9uz+9cr5nm77gi=_kcw$8vmp!r=bcm5e20+'
+SECRET_KEY = '*****'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'db',
         'USER': 'admin',
-        'PASSWORD': '1z3q2w',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -141,7 +141,7 @@ EMAIL_HOST_PASSWORD = '********'
 EMAIL_PORT = 587
 # DEFAULT_FROM_EMAIL = 'TestSite Team <noreply@example.com>'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-'09mmnn@gmail.com'
+
 # Ключ для хранения корзины в сессии пользователя
 CART_SESSION_ID = 'cart'
 
